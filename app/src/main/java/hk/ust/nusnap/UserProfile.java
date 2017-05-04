@@ -1,6 +1,7 @@
 package hk.ust.nusnap;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,12 +16,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfile extends AppCompatActivity {
-    ListView nutritionListView, foodListView;
+    ListView nutritionListView, mealListView;
     NutritionAdapter nutritionAdapter;
+    MealAdapter mealAdapter;
     List<Nutrition> nutritionValues = new ArrayList<>();
+    List<Meal> mealsToday = new ArrayList<>();
 
     public static final String GREEN = "green";
     public static final String YELLOW = "yellow";
+    public static final String RED = "red";
+
+    class Meal {
+        String type;
+        String time;
+        @DrawableRes
+        int picId = -1;
+        boolean done;
+    }
+
+    class MealAdapter extends ArrayAdapter<Meal> {
+        TextView typeTextView;
+        TextView timeTextView;
+        ImageView mealImageView;
+        ImageView detailsImageView;
+        View row;
+
+        public MealAdapter(Context context, List<Meal> meals) {
+            super(context, R.layout.activity_user_profile, meals);
+        }
+
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            try {
+                LayoutInflater inflater = getLayoutInflater();
+                row = inflater.inflate(R.layout.item_nutrition, parent, false);
+                Meal meal = mealsToday.get(position);
+                typeTextView = (TextView) row.findViewById(R.id.tvMeal);
+                typeTextView.setText(meal.type);
+                timeTextView = (TextView) row.findViewById(R.id.tvMealTime);
+                timeTextView.setText(meal.time);
+                if (meal.picId != -1) {
+                    mealImageView = (ImageView) row.findViewById(R.id.ivMealPic);
+                    mealImageView.setImageDrawable(getResources().getDrawable(meal.picId));
+                }
+                detailsImageView = (ImageView) row.findViewById(R.id.ivDetails);
+                if (meal.done) {
+                    detailsImageView.setImageResource(R.drawable.next);
+                } else {
+                    detailsImageView.setImageResource(R.drawable.clock);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return row;
+        }
+    }
 
     class Nutrition {
         String type;
@@ -55,9 +104,12 @@ public class UserProfile extends AppCompatActivity {
                 if (nutrition.colour.equals(GREEN)) {
                     progressBar.setImageResource(R.drawable.greenbar);
                     valueTextView.setTextColor(getResources().getColor(R.color.colorGreen));
-                } else {
+                } else if (nutrition.colour.equals(YELLOW)) {
                     progressBar.setImageResource(R.drawable.yellowbar);
                     valueTextView.setTextColor(getResources().getColor(R.color.colorYelow));
+                } else {
+                    progressBar.setImageResource(R.drawable.redbar);
+                    valueTextView.setTextColor(getResources().getColor(R.color.colorRed));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -71,6 +123,28 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        setNutritions();
+        setMeals();
+
+        mealListView = (ListView) findViewById(R.id.lvMeal);
+        mealAdapter = new MealAdapter(this, mealsToday);
+        mealListView.setAdapter(mealAdapter);
+
+        nutritionListView = (ListView) findViewById(R.id.lvNutrition);
+        nutritionAdapter = new NutritionAdapter(this, nutritionValues);
+        nutritionListView.setAdapter(nutritionAdapter);
+    }
+
+    private void setMeals() {
+        Meal breakfast = new Meal();
+        breakfast.type = "Breakfast";
+        breakfast.done = true;
+        breakfast.picId = R.drawable.breakfast;
+        breakfast.time = "10:30 AM";
+        mealsToday.add(breakfast);
+    }
+
+    private void setNutritions() {
         Nutrition calories = new Nutrition();
         calories.type = "Calories";
         calories.colour = GREEN;
@@ -92,8 +166,18 @@ public class UserProfile extends AppCompatActivity {
         protein.value = "78";
         nutritionValues.add(protein);
 
-        nutritionListView = (ListView) findViewById(R.id.lvNutrition);
-        nutritionAdapter = new NutritionAdapter(this, nutritionValues);
-        nutritionListView.setAdapter(nutritionAdapter);
+        Nutrition sugar = new Nutrition();
+        sugar.type = "Sugar";
+        sugar.colour = RED;
+        sugar.unitTotal = "%";
+        sugar.value = "115";
+        nutritionValues.add(sugar);
+
+        Nutrition carb = new Nutrition();
+        carb.type = "Carbohydrates";
+        carb.colour = GREEN;
+        carb.unitTotal = "%";
+        carb.value = "78";
+        nutritionValues.add(carb);
     }
 }

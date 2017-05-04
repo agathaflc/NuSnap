@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:gravity="center_vertical"
+    android:padding="5dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivBullet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@android:drawable/presence_online" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivBullet"
+            android:fontFamily="serif"
+            android:paddingLeft="13dp"
+            android:text="Breakfast"
+            android:textColor="@color/colorSoftBlack"
+            android:textSize="20dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvMealTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tvMeal"
+            android:layout_below="@id/tvMeal"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="13dp"
+            android:text="10:30 AM"
+            android:textColor="@color/colorRoughBlack"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivDetails"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:src="@drawable/next" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivMealPic"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/ivDetails"
+        android:layout_toStartOf="@id/ivDetails"/>
+
+
+</RelativeLayout>

@@ -145,7 +145,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lvFood"
+        android:id="@+id/lvMeal"
         android:layout_margin="8dp"/>
 
 

@@ -13,7 +13,7 @@
         android:fontFamily="serif"
         android:text="Calories"
         android:padding="8dp"
-        android:textColor="#696969"
+        android:textColor="@color/colorSoftBlack"
         android:textSize="24dp" />
 
     <android.support.v7.widget.AppCompatTextView
