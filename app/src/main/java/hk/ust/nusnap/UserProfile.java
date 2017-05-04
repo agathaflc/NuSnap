@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -41,16 +42,16 @@ public class UserProfile extends AppCompatActivity {
     public static final String COUNTER = "counter";
 
     private void dispatchTakePictureIntent() {
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//        }
-        Intent intent = new Intent(this, AnalyzeActivity.class);
-        Bitmap imageBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.camera);
-        intent.putExtra(BITMAP_IMAGE, scaleDownBitmap(imageBitmap, 100, this));
-        intent.putExtra(COUNTER, counter);
-
-        startActivity(intent);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+//        Intent intent = new Intent(this, AnalyzeActivity.class);
+//        Bitmap imageBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.camera);
+//        intent.putExtra(BITMAP_IMAGE, scaleDownBitmap(imageBitmap, 100, this));
+//        intent.putExtra(COUNTER, counter);
+//
+//        startActivity(intent);
     }
     public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
 
@@ -230,6 +231,13 @@ public class UserProfile extends AppCompatActivity {
         mealListView = (ListView) findViewById(R.id.lvMeal);
         mealAdapter = new MealAdapter(this, mealsToday);
         mealListView.setAdapter(mealAdapter);
+        mealListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(UserProfile.this, RecommendationActivity.class);
+                startActivity(intent);
+            }
+        });
 
         nutritionListView = (ListView) findViewById(R.id.lvNutrition);
         nutritionAdapter = new NutritionAdapter(this, nutritionValues);

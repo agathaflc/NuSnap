@@ -47,7 +47,7 @@ public class AnalyzeActivity extends AppCompatActivity {
     }
 
     private void setFacts(int count) {
-        if (count%2 != 0) {
+        if (count%2 == 0) {
             Fact fat = new Fact();
             fat.name = "Total Fat";
             fat.amount = "28 g";

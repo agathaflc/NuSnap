@@ -32,6 +32,8 @@ public class RecommendationActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        initResto();
+
         restaurantListView = (ListView) findViewById(R.id.lvResto);
         restaurantAdapter = new RestaurantAdapter(this, restaurantList);
         restaurantListView.setAdapter(restaurantAdapter);
@@ -73,7 +75,7 @@ public class RecommendationActivity extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             try {
                 LayoutInflater inflater = getLayoutInflater();
-                row = inflater.inflate(R.layout.item_fact, parent, false);
+                row = inflater.inflate(R.layout.item_restaurant, parent, false);
                 Restaurant restaurant = restaurantList.get(position);
                 nameTextView = (TextView) row.findViewById(R.id.tvRestoName);
                 nameTextView.setText(restaurant.name);
