@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="275dp"
-        android:layout_marginTop="-8dp"
+        android:layout_marginTop="-18dp"
         android:id="@+id/rlHeader">
 
         <android.support.v7.widget.AppCompatImageView
@@ -163,7 +163,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:layout_weight="1"
                 android:smoothScrollbar="true" />
             <TextView
                 android:layout_width="match_parent"
@@ -181,7 +180,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:layout_weight="4"
                 android:drawSelectorOnTop="false" />
 
         </LinearLayout>

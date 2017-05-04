@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hk.ust.nusnap">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/nusnap_logo"
@@ -15,6 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AnalyzeActivity"
+            android:parentActivityName=".UserProfile"/>
+
     </application>
 
 </manifest>

@@ -1,10 +1,16 @@
 package hk.ust.nusnap;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,9 +29,35 @@ public class UserProfile extends AppCompatActivity {
     List<Nutrition> nutritionValues = new ArrayList<>();
     List<Meal> mealsToday = new ArrayList<>();
 
+    int counter = 0;
+
     public static final String GREEN = "green";
     public static final String YELLOW = "yellow";
     public static final String RED = "red";
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final String BITMAP_IMAGE = "BitmapImage";
+    public static final String COUNTER = "counter";
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Intent intent = new Intent(this, AnalyzeActivity.class);
+            intent.putExtra(BITMAP_IMAGE, imageBitmap);
+            intent.putExtra(COUNTER, counter);
+            counter++;
+            startActivity(intent);
+        }
+    }
 
     class Meal {
         String type;
@@ -35,11 +67,34 @@ public class UserProfile extends AppCompatActivity {
         boolean done;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_camera, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_camera:
+                dispatchTakePictureIntent();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+
     class MealAdapter extends ArrayAdapter<Meal> {
         TextView typeTextView;
         TextView timeTextView;
         ImageView mealImageView;
         ImageView detailsImageView;
+        ImageView bulletImageView;
         View row;
 
         public MealAdapter(Context context, List<Meal> meals) {
@@ -60,10 +115,13 @@ public class UserProfile extends AppCompatActivity {
                     mealImageView.setImageDrawable(getResources().getDrawable(meal.picId));
                 }
                 detailsImageView = (ImageView) row.findViewById(R.id.ivDetails);
+                bulletImageView = (ImageView) row.findViewById(R.id.ivBullet);
                 if (meal.done) {
                     detailsImageView.setImageResource(R.drawable.next);
+                    bulletImageView.setImageResource(android.R.drawable.presence_online);
                 } else {
                     detailsImageView.setImageResource(R.drawable.clock);
+                    bulletImageView.setImageResource(android.R.drawable.presence_invisible);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -120,9 +178,22 @@ public class UserProfile extends AppCompatActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(COUNTER, counter);
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        // recovering the instance state
+        if (savedInstanceState != null) {
+            counter = savedInstanceState.getInt(COUNTER);
+        }
 
         setNutritions();
         setMeals();
@@ -167,6 +238,27 @@ public class UserProfile extends AppCompatActivity {
         breakfast.picId = R.drawable.breakfast;
         breakfast.time = "10:30 AM";
         mealsToday.add(breakfast);
+
+        Meal lunch = new Meal();
+        lunch.type = "Lunch";
+        lunch.done = true;
+        lunch.picId = R.drawable.lunch;
+        lunch.time = "1:30 PM";
+        mealsToday.add(lunch);
+
+        Meal tea = new Meal();
+        tea.type = "Tea";
+        tea.done = false;
+        tea.picId = -1;
+        tea.time = "4:30 PM";
+        mealsToday.add(tea);
+
+        Meal dinner = new Meal();
+        dinner.type = "Dinner";
+        dinner.done = false;
+        dinner.picId = -1;
+        dinner.time = "7:30 PM";
+        mealsToday.add(dinner);
     }
 
     private void setNutritions() {
