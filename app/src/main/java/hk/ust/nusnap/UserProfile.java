@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class UserProfile extends AppCompatActivity {
         public View getView(final int position, View convertView, ViewGroup parent) {
             try {
                 LayoutInflater inflater = getLayoutInflater();
-                row = inflater.inflate(R.layout.item_nutrition, parent, false);
+                row = inflater.inflate(R.layout.item_food, parent, false);
                 Meal meal = mealsToday.get(position);
                 typeTextView = (TextView) row.findViewById(R.id.tvMeal);
                 typeTextView.setText(meal.type);
@@ -133,6 +134,30 @@ public class UserProfile extends AppCompatActivity {
         nutritionListView = (ListView) findViewById(R.id.lvNutrition);
         nutritionAdapter = new NutritionAdapter(this, nutritionValues);
         nutritionListView.setAdapter(nutritionAdapter);
+
+        ListUtils.setDynamicHeight(nutritionListView);
+        ListUtils.setDynamicHeight(mealListView);
+    }
+
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                return;
+            }
+            int height = 0;
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
+        }
     }
 
     private void setMeals() {
