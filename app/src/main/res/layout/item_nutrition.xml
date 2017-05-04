@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:gravity="center_vertical"
+    android:padding="5dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvNutrition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="Calories"
+        android:padding="8dp"
+        android:textColor="#696969"
+        android:textSize="24dp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvUnitTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:text="/ 2000"
+        android:textSize="18dp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tvFulfilled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tvUnitTotal"
+        android:layout_toStartOf="@id/tvUnitTotal"
+        android:padding="5dp"
+        android:text="1638"
+        android:textColor="@color/colorGreen"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivBar"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvUnitTotal"
+        android:padding="4dp"
+        android:src="@drawable/greenbar" />
+
+</RelativeLayout>
