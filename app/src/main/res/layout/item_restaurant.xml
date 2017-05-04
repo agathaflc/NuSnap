@@ -33,7 +33,7 @@
             android:layout_toEndOf="@id/ivStar"
             android:fontFamily="serif"
             android:text="VeggieGrill"
-            android:id="@+id/tvRestoNa"
+            android:id="@+id/tvRestoName"
             android:textColor="@color/colorRoughBlack"
             android:textSize="24dp" />
 

@@ -38,40 +38,21 @@ public class RecommendationActivity extends AppCompatActivity {
     }
 
     private void initResto() {
-        Fact fat = new Fact();
-        fat.name = "Total Fat";
-        fat.amount = "28 g";
-        nutritionFacts.add(fat);
+        Restaurant uniq = new Restaurant();
+        uniq.name = "Unique";
+        uniq.resId = R.drawable.unique;
+        restaurantList.add(uniq);
 
-        Fact calories = new Fact();
-        calories.name = "Calories";
-        calories.amount = "393";
-        nutritionFacts.add(calories);
+        Restaurant verdura = new Restaurant();
+        verdura.name = "Verdura";
+        verdura.resId = R.drawable.verdura;
+        restaurantList.add(verdura);
 
-        Fact carb = new Fact();
-        carb.name = "Total Carbs";
-        carb.amount = "29 g";
-        nutritionFacts.add(carb);
+        Restaurant veggieGrill = new Restaurant();
+        veggieGrill.name = "Unique";
+        veggieGrill.resId = R.drawable.veggie_grill;
+        restaurantList.add(veggieGrill);
 
-        Fact Saturated = new Fact();
-        Saturated.name = "Saturated";
-        Saturated.amount = "0 g";
-        nutritionFacts.add(Saturated);
-
-        Fact Polyunsaturated = new Fact();
-        Polyunsaturated.name = "Polyunsaturated";
-        Polyunsaturated.amount = "0 g";
-        nutritionFacts.add(Polyunsaturated);
-
-        Fact Protein = new Fact();
-        Protein.name = "Protein";
-        Protein.amount = "6 g";
-        nutritionFacts.add(Protein);
-
-        Fact Potassium = new Fact();
-        Potassium.name = "Potassium";
-        Potassium.amount = "0 mg";
-        nutritionFacts.add(Potassium);
     }
 
     class Restaurant {
@@ -94,10 +75,10 @@ public class RecommendationActivity extends AppCompatActivity {
                 LayoutInflater inflater = getLayoutInflater();
                 row = inflater.inflate(R.layout.item_fact, parent, false);
                 Restaurant restaurant = restaurantList.get(position);
-                nameTextView = (TextView) row.findViewById(R.id.t);
-                factTextView.setText(fact.name);
-                amountTextView = (TextView) row.findViewById(R.id.tvFactAmount);
-                amountTextView.setText(fact.amount);
+                nameTextView = (TextView) row.findViewById(R.id.tvRestoName);
+                nameTextView.setText(restaurant.name);
+                restoImageView = (ImageView) row.findViewById(R.id.ivRestoImg);
+                restoImageView.setImageResource(restaurant.resId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
