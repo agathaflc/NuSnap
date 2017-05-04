@@ -3,6 +3,7 @@ package hk.ust.nusnap;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
@@ -40,21 +41,37 @@ public class UserProfile extends AppCompatActivity {
     public static final String COUNTER = "counter";
 
     private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+        Intent intent = new Intent(this, AnalyzeActivity.class);
+        Bitmap imageBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.camera);
+        intent.putExtra(BITMAP_IMAGE, scaleDownBitmap(imageBitmap, 100, this));
+        intent.putExtra(COUNTER, counter);
 
+        startActivity(intent);
+    }
+    public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+
+        int h= (int) (newHeight*densityMultiplier);
+        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+
+        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+
+        return photo;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            counter++;
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             Intent intent = new Intent(this, AnalyzeActivity.class);
             intent.putExtra(BITMAP_IMAGE, imageBitmap);
             intent.putExtra(COUNTER, counter);
-            counter++;
             startActivity(intent);
         }
     }
@@ -78,6 +95,7 @@ public class UserProfile extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_camera:
+                counter++;
                 dispatchTakePictureIntent();
                 return true;
             default:
@@ -183,6 +201,17 @@ public class UserProfile extends AppCompatActivity {
 
         // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        counter = savedInstanceState.getInt(COUNTER);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        counter = getIntent().getIntExtra(COUNTER, 0);
     }
 
     @Override

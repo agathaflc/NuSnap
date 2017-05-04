@@ -73,18 +73,18 @@ public class AnalyzeActivity extends AppCompatActivity {
             Polyunsaturated.amount = "0 g";
             nutritionFacts.add(Polyunsaturated);
 
-            Fact Potassium = new Fact();
-            Potassium.name = "Potassium";
-            Potassium.amount = "0 mg";
-            nutritionFacts.add(Potassium);
-
             Fact Protein = new Fact();
             Protein.name = "Protein";
             Protein.amount = "6 g";
             nutritionFacts.add(Protein);
+
+            Fact Potassium = new Fact();
+            Potassium.name = "Potassium";
+            Potassium.amount = "0 mg";
+            nutritionFacts.add(Potassium);
         } else {
             Fact empty = new Fact();
-            empty.name = "This picture cannot be recognised as food.";
+            empty.name = "Not a food.";
             empty.amount = "";
             nutritionFacts.add(empty);
         }
@@ -100,8 +100,8 @@ public class AnalyzeActivity extends AppCompatActivity {
         TextView amountTextView;
         View row;
 
-        public FactAdapter(Context context, List<Fact> meals) {
-            super(context, R.layout.activity_analyze, meals);
+        public FactAdapter(Context context, List<Fact> facts) {
+            super(context, R.layout.activity_analyze, facts);
         }
 
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -109,9 +109,9 @@ public class AnalyzeActivity extends AppCompatActivity {
                 LayoutInflater inflater = getLayoutInflater();
                 row = inflater.inflate(R.layout.item_fact, parent, false);
                 Fact fact = nutritionFacts.get(position);
-                factTextView = (TextView) findViewById(R.id.tvFactName);
+                factTextView = (TextView) row.findViewById(R.id.tvFactName);
                 factTextView.setText(fact.name);
-                amountTextView = (TextView) findViewById(R.id.tvFactAmount);
+                amountTextView = (TextView) row.findViewById(R.id.tvFactAmount);
                 amountTextView.setText(fact.amount);
             } catch (Exception e) {
                 e.printStackTrace();

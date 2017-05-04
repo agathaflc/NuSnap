@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="40dp"
     android:layout_margin="8dp"
     android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/tvFactName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Protein"
+        android:layout_height="match_parent"
         android:textColor="@color/colorPrimaryDark"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Protein"
         android:textSize="24dp" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:id="@+id/tvFactAmount"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="3 g"
         android:textColor="@color/colorSoftBlack"
+        android:text="3 g"
         android:textSize="24dp" />
 </RelativeLayout>
